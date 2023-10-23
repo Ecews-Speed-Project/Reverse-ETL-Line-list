@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  my-app:
+    build: .
+    ports:
+      - "8282:8282"
+    depends_on:
+      - postgres
+      - rabbitmq
+      - mongodb
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      SPRING_DATA_MONGODB_HOST: mongodb
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_USERNAME:
+      SPRING_DATA_MONGODB_PASSWORD:
+      SPRING_DATA_MONGODB_DATABASE: ihvn
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ihvn4
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ihvn4
+    ports:
+      - "5432:5432"
+
+  rabbitmq:
+    image: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: Ogesiano
+      RABBITMQ_DEFAULT_PASS: peace
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      SPRING_DATA_MONGODB_HOST: localhost
+      SPRING_DATA_MONGODB_PORT: 27017
+    ports:
+      - "27017:27017"
